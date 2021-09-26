@@ -14,7 +14,7 @@ using namespace std;
  
 #define EMPTY_STRING ""
  
-##//Tree Node
+
 struct Node
 {
     char ch;
@@ -22,7 +22,7 @@ struct Node
     Node *left, *right;
 };
  
-##//to allocate a new tree node
+
 Node* getNode(char ch, int freq, Node* left, Node* right)
 {
     Node* node = new Node();
@@ -35,29 +35,27 @@ Node* getNode(char ch, int freq, Node* left, Node* right)
     return node;
 }
  
-##// Comparison object to be used to order the heap
 struct comp
 {
     bool operator()(const Node* l, const Node* r) const
     {
-        // the highest priority item has the lowest frequency
+       
         return l->freq > r->freq;
     }
 };
  
-##// Utility function to check if Huffman Tree contains only a single node
+
 bool isLeaf(Node* root) {
     return root->left == nullptr && root->right == nullptr;
 }
- 
-##// Traverse the Huffman Tree and store Huffman Codes in a map.
+
 void encode(Node* root, string str, unordered_map<char, string> &huffmanCode)
 {
     if (root == nullptr) {
         return;
     }
  
-    // found a leaf node
+   
     if (isLeaf(root)) {
         huffmanCode[root->ch] = (str != EMPTY_STRING) ? str : "1";
     }
@@ -66,14 +64,13 @@ void encode(Node* root, string str, unordered_map<char, string> &huffmanCode)
     encode(root->right, str + "1", huffmanCode);
 }
  
-##// Traverse the Huffman Tree and decode the encoded string
+
 void decode(Node* root, int &index, string str)
 {
     if (root == nullptr) {
         return;
     }
- 
- ##// found a leaf node
+
     if (isLeaf(root))
     {
         cout << root->ch;
@@ -90,7 +87,7 @@ void decode(Node* root, int &index, string str)
     }
 }
  
-##// Builds Huffman Tree and decodes the given input text
+
 void buildHuffmanTree(string text)
 {
     
@@ -128,8 +125,6 @@ void buildHuffmanTree(string text)
   
     Node* root = pq.top();
  
- ##// Traverse the Huffman Tree and store Huffman Codes
- ##// in a map. Also, print them
     unordered_map<char, string> huffmanCode;
     encode(root, EMPTY_STRING, huffmanCode);
  
@@ -165,7 +160,6 @@ void buildHuffmanTree(string text)
     }
 }
  
-##//main function 
 int main()
 {
     string text = "This is Huffman Compression";
