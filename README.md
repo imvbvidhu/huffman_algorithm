@@ -4,7 +4,7 @@
 ### Given a text,a prefix code that minimizes the total number of bits needed to encode the text, 
 ### it is the encoding that makes the text smaller (fewer bits = more compression).
 
-####______________________________________________________________________________________________________________
+______________________________________________________________________________________________________________
 
 #include <iostream>
 #include <string>
@@ -14,7 +14,7 @@ using namespace std;
  
 #define EMPTY_STRING ""
  
-// Tree Node
+##//Tree Node
 struct Node
 {
     char ch;
@@ -22,7 +22,7 @@ struct Node
     Node *left, *right;
 };
  
-//to allocate a new tree node
+##//to allocate a new tree node
 Node* getNode(char ch, int freq, Node* left, Node* right)
 {
     Node* node = new Node();
@@ -35,7 +35,7 @@ Node* getNode(char ch, int freq, Node* left, Node* right)
     return node;
 }
  
-// Comparison object to be used to order the heap
+##// Comparison object to be used to order the heap
 struct comp
 {
     bool operator()(const Node* l, const Node* r) const
@@ -45,12 +45,12 @@ struct comp
     }
 };
  
-// Utility function to check if Huffman Tree contains only a single node
+##// Utility function to check if Huffman Tree contains only a single node
 bool isLeaf(Node* root) {
     return root->left == nullptr && root->right == nullptr;
 }
  
-// Traverse the Huffman Tree and store Huffman Codes in a map.
+##// Traverse the Huffman Tree and store Huffman Codes in a map.
 void encode(Node* root, string str, unordered_map<char, string> &huffmanCode)
 {
     if (root == nullptr) {
@@ -66,14 +66,14 @@ void encode(Node* root, string str, unordered_map<char, string> &huffmanCode)
     encode(root->right, str + "1", huffmanCode);
 }
  
-// Traverse the Huffman Tree and decode the encoded string
+##// Traverse the Huffman Tree and decode the encoded string
 void decode(Node* root, int &index, string str)
 {
     if (root == nullptr) {
         return;
     }
  
-    // found a leaf node
+ ##// found a leaf node
     if (isLeaf(root))
     {
         cout << root->ch;
@@ -90,52 +90,46 @@ void decode(Node* root, int &index, string str)
     }
 }
  
-// Builds Huffman Tree and decodes the given input text
+##// Builds Huffman Tree and decodes the given input text
 void buildHuffmanTree(string text)
 {
-    // base case: empty string
+    
     if (text == EMPTY_STRING) {
         return;
     }
  
-    // count the frequency of appearance of each character
-    // and store it in a map
+   
     unordered_map<char, int> freq;
     for (char ch: text) {
         freq[ch]++;
     }
  
-    // Create a priority queue to store live nodes of the Huffman tree
+  
     priority_queue<Node*, vector<Node*>, comp> pq;
  
-    // Create a leaf node for each character and add it
-    // to the priority queue.
+    
     for (auto pair: freq) {
         pq.push(getNode(pair.first, pair.second, nullptr, nullptr));
     }
  
-    // do till there is more than one node in the queue
+  
     while (pq.size() != 1)
     {
-        // Remove the two nodes of the highest priority
-        // (the lowest frequency) from the queue
+       
  
         Node* left = pq.top(); pq.pop();
         Node* right = pq.top();    pq.pop();
  
-        // create a new internal node with these two nodes as children and
-        // with a frequency equal to the sum of the two nodes' frequencies.
-        // Add the new node to the priority queue.
- 
+       
         int sum = left->freq + right->freq;
         pq.push(getNode('\0', sum, left, right));
     }
  
-    // `root` stores pointer to the root of Huffman Tree
+  
     Node* root = pq.top();
  
-    // Traverse the Huffman Tree and store Huffman Codes
-    // in a map. Also, print them
+ ##// Traverse the Huffman Tree and store Huffman Codes
+ ##// in a map. Also, print them
     unordered_map<char, string> huffmanCode;
     encode(root, EMPTY_STRING, huffmanCode);
  
@@ -146,7 +140,7 @@ void buildHuffmanTree(string text)
  
     cout << "\nThe original string is:\n" << text << endl;
  
-    // Print encoded string
+  ##print encoded
     string str;
     for (char ch: text) {
         str += huffmanCode[ch];
@@ -157,14 +151,13 @@ void buildHuffmanTree(string text)
  
     if (isLeaf(root))
     {
-        // Special case: For input like a, aa, aaa, etc.
+        
         while (root->freq--) {
             cout << root->ch;
         }
     }
     else {
-        // Traverse the Huffman Tree again and this time,
-        // decode the encoded string
+        
         int index = -1;
         while (index < (int)str.size() - 1) {
             decode(root, index, str);
@@ -172,7 +165,7 @@ void buildHuffmanTree(string text)
     }
 }
  
-//main function 
+##//main function 
 int main()
 {
     string text = "This is Huffman Compression";
